@@ -2,7 +2,9 @@
   <div id="App">
       <todo-header></todo-header>
       <todo-input v-on:addTodoItem="addOneItem"></todo-input>
-      <todo-list :propsData="todoItems" v-on:removeItem="removeOneItem"></todo-list>
+      <todo-list :propsData="todoItems"
+       v-on:removeItem="removeOneItem"
+       v-on:toggleItem="toggleOneItem"></todo-list>
       <todo-footer></todo-footer>
   </div>
 </template>
@@ -32,7 +34,15 @@ export default {
     removeOneItem(todoItem, index){
       localStorage.removeItem(todoItem.item);
       this.todoItems.splice(index,1);
-    }
+    },
+
+    toggleOneItem(todoItem, index){
+      this.todoItems[index].completed = !this.todoItems[index].completed // 기존에 받아온 item을 수정 후 저장했다면, index 번호를 받아 저장되어 있는 index를 찾아가서 수정 
+      localStorage.removeItem(todoItem.item);
+      localStorage.setItem(todoItem.item, JSON.stringify(todoItem)); // localStorage를 갱신할 방법x 따라서 completed 속성을 변경 후 다시 저장
+    },
+
+
   },
 
   created() {

@@ -3,7 +3,7 @@
         <ul>
             <li v-for="(todoItem, index) in propsData" :key="todoItem.item" class="shadow">
                 <i class="checkBtn fa-solid fa-check"  :class="{checkBtnCompleted: todoItem.completed}"
-                  @click="toggleComplete(todoItem)"></i>
+                  @click="toggleComplete(todoItem,index)"></i>
                 <span :class="{textCompleted: todoItem.completed}"> {{ todoItem.item }} </span>
                 <span class="removeBtn" @click="removeTodo(todoItem, index)"> 
                     <i class="fa-solid fa-trash-can"></i>
@@ -21,10 +21,9 @@ export default {
             this.$emit('removeItem', todoItem, index)
         },
         
-        toggleComplete(todoItem){
-            todoItem.completed = !todoItem.completed; 
-            localStorage.removeItem(todoItem.item);
-            localStorage.setItem(todoItem.item, JSON.stringify(todoItem)); // localStorage를 갱신할 방법x 따라서 completed 속성을 변경 후 다시 저장
+        toggleComplete(todoItem, index){
+            this.$$emit('toggleItem', todoItem, index);
+            
         }
     },
 }
