@@ -2,7 +2,7 @@
   <div id="App">
       <todo-header></todo-header>
       <todo-input></todo-input>
-      <todo-list></todo-list>
+      <todo-list :propsData="todoItems"></todo-list>
       <todo-footer></todo-footer>
   </div>
 </template>
@@ -15,6 +15,23 @@ import TodoFooter from './components/TodoFooter.vue'
 
 export default {
   name: 'App',
+
+  data(){
+    return{
+      todoItems : [],
+    }
+  },
+
+  created() {
+        if(localStorage.length >0) {
+            for(var i =0 ; i< localStorage.length ; i++){
+                // this.todoItems.push(localStorage.key(i));
+                let value = JSON.parse(localStorage.getItem(localStorage.key(i)));
+                this.todoItems.push(value); // 파싱된 Json 객체를 저장
+            }
+        }
+    },
+
   components: {
     TodoHeader,
     TodoList,
@@ -22,7 +39,6 @@ export default {
     TodoFooter,
 
   }
-
 }
 </script>
 

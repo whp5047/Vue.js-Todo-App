@@ -1,7 +1,7 @@
 <template>
     <div>
         <ul>
-            <li v-for="(todoItem, index) in todoItems" :key="todoItem.item" class="shadow">
+            <li v-for="(todoItem, index) in propsData" :key="todoItem.item" class="shadow">
                 <i class="checkBtn fa-solid fa-check"  :class="{checkBtnCompleted: todoItem.completed}"
                   @click="toggleComplete(todoItem)"></i>
                 <span :class="{textCompleted: todoItem.completed}"> {{ todoItem.item }} </span>
@@ -14,21 +14,7 @@
 </template>
 <script>
 export default {
-    data() {
-        return {
-            todoItems : [],
-        }
-    },
-
-    created() {
-        if(localStorage.length >0) {
-            for(var i =0 ; i< localStorage.length ; i++){
-                // this.todoItems.push(localStorage.key(i));
-                let value = JSON.parse(localStorage.getItem(localStorage.key(i)));
-                this.todoItems.push(value); // 파싱된 Json 객체를 저장
-            }
-        }
-    },
+    props : ['propsData'], // 상위 컴포넌트에서 내려준 값을 받음 v-for in propsdaa로 변경하여 반목문 실행
 
     methods: {
         removeTodo(todoItem, index){
