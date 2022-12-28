@@ -22,7 +22,7 @@ export default {
         },
         
         toggleComplete(todoItem, index){
-            this.$$emit('toggleItem', todoItem, index);
+            this.$emit('toggleItem', todoItem, index);
             
         }
     },

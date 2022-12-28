@@ -5,7 +5,7 @@
       <todo-list :propsData="todoItems"
        v-on:removeItem="removeOneItem"
        v-on:toggleItem="toggleOneItem"></todo-list>
-      <todo-footer></todo-footer>
+      <todo-footer v-on:clearAll="clearAllItems"></todo-footer>
   </div>
 </template>
 
@@ -42,6 +42,10 @@ export default {
       localStorage.setItem(todoItem.item, JSON.stringify(todoItem)); // localStorage를 갱신할 방법x 따라서 completed 속성을 변경 후 다시 저장
     },
 
+    clearAllItems(){
+      localStorage.clear();
+      this.todoItems = [];
+    },
 
   },
 
