@@ -1,15 +1,17 @@
 <template>
     <div>
-        <ul>
-            <li v-for="(todoItem, index) in propsData" :key="todoItem.item" class="shadow">
-                <i class="checkBtn fa-solid fa-check"  :class="{checkBtnCompleted: todoItem.completed}"
-                  @click="toggleComplete(todoItem,index)"></i>
-                <span :class="{textCompleted: todoItem.completed}"> {{ todoItem.item }} </span>
-                <span class="removeBtn" @click="removeTodo(todoItem, index)"> 
-                    <i class="fa-solid fa-trash-can"></i>
-                </span>
-            </li>
-        </ul>
+        <transition-group name="fade" tag="ul">
+            <!-- <ul> -->
+                <li v-for="(todoItem, index) in propsData" :key="todoItem.item" class="shadow">
+                    <i class="checkBtn fa-solid fa-check"  :class="{checkBtnCompleted: todoItem.completed}"
+                    @click="toggleComplete(todoItem,index)"></i>
+                    <span :class="{textCompleted: todoItem.completed}"> {{ todoItem.item }} </span>
+                    <span class="removeBtn" @click="removeTodo(todoItem, index)"> 
+                        <i class="fa-solid fa-trash-can"></i>
+                    </span>
+                </li>
+            <!-- </ul> -->
+        </transition-group>
     </div>
 </template>
 <script>
@@ -68,4 +70,13 @@ export default {
         color: #de4343;
     }
     
+    .fade-enter-active, .fade-leave-active {
+         transition: all .8s;
+    }
+
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
 </style>
