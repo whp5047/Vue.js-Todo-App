@@ -1,9 +1,11 @@
 <template>
   <div id="App">
       <todo-header></todo-header>
-      <todo-input></todo-input>
-      <todo-list></todo-list>
-      <todo-footer></todo-footer>
+      <todo-input v-on:addTodoItem="addOneItem"></todo-input>
+      <todo-list :propsData="todoItems"
+       v-on:removeItem="removeOneItem"
+       v-on:toggleItem="toggleOneItem"></todo-list>
+      <todo-footer v-on:clearAll="clearAllItems"></todo-footer>
   </div>
 </template>
 
@@ -15,6 +17,48 @@ import TodoFooter from './components/TodoFooter.vue'
 
 export default {
   name: 'App',
+
+  data(){
+    return{
+      todoItems : [],
+    }
+  },
+
+  methods: {
+    addOneItem(todoItem){
+       var obj ={completed: false, item: todoItem};
+       localStorage.setItem(todoItem, JSON.stringify(obj));
+       this.todoItems.push(obj);
+    },
+
+    removeOneItem(todoItem, index){
+      localStorage.removeItem(todoItem.item);
+      this.todoItems.splice(index,1);
+    },
+
+    toggleOneItem(todoItem, index){
+      this.todoItems[index].completed = !this.todoItems[index].completed // 기존에 받아온 item을 수정 후 저장했다면, index 번호를 받아 저장되어 있는 index를 찾아가서 수정 
+      localStorage.removeItem(todoItem.item);
+      localStorage.setItem(todoItem.item, JSON.stringify(todoItem)); // localStorage를 갱신할 방법x 따라서 completed 속성을 변경 후 다시 저장
+    },
+
+    clearAllItems(){
+      localStorage.clear();
+      this.todoItems = [];
+    },
+
+  },
+
+  created() {
+        if(localStorage.length >0) {
+            for(var i =0 ; i< localStorage.length ; i++){
+                // this.todoItems.push(localStorage.key(i));
+                let value = JSON.parse(localStorage.getItem(localStorage.key(i)));
+                this.todoItems.push(value); // 파싱된 Json 객체를 저장
+            }
+        }
+    },
+
   components: {
     TodoHeader,
     TodoList,
@@ -22,7 +66,6 @@ export default {
     TodoFooter,
 
   }
-
 }
 </script>
 
