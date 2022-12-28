@@ -1,9 +1,10 @@
 <template>
     <div>
         <ul>
-            <li v-for="(todoItem, index) in todoItems" :key="todoItem" class="shadow">
-                <i class="checkBtn fa-solid fa-check"></i>
-                {{todoItem}}
+            <li v-for="(todoItem, index) in todoItems" :key="todoItem.item" class="shadow">
+                <i class="checkBtn fa-solid fa-check"  :class="{checkBtnCompleted: todoItem.completed}"
+                  @click="toggleComplete(todoItem, index)"></i>
+                <span :class="{textCompleted: todoItem.completed}"> {{ todoItem.item }} </span>
                 <span class="removeBtn" @click="removeTodo(todoItem, index)"> 
                     <i class="fa-solid fa-trash-can"></i>
                 </span>
@@ -22,16 +23,23 @@ export default {
     created() {
         if(localStorage.length >0) {
             for(var i =0 ; i< localStorage.length ; i++){
-                this.todoItems.push(localStorage.key(i));
+                // this.todoItems.push(localStorage.key(i));
+                let value = JSON.parse(localStorage.getItem(localStorage.key(i)));
+                this.todoItems.push(value); // 파싱된 Json 객체를 저장
             }
         }
     },
 
     methods: {
         removeTodo(todoItem, index){
-            console.log(todoItem, index);
             localStorage.removeItem(todoItem);
             this.todoItems.splice(index,1);
+        },
+        
+        toggleComplete(todoItem, index){
+            todoItem.completed = !todoItem.completed; 
+            localStorage.removeItem(todoItem.item);
+            localStorage.setItem(todoItem.item, JSON.stringify(todoItem)); // localStorage를 갱신할 방법x 따라서 completed 속성을 변경 후 다시 저장
         }
     },
 }
