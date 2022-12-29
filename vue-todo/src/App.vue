@@ -2,7 +2,7 @@
   <div id="App">
       <todo-header></todo-header>
       <todo-input v-on:addTodoItem="addOneItem"></todo-input>
-      <todo-list :propsData="todoItems"
+      <todo-list
        v-on:removeItem="removeOneItem"
        v-on:toggleItem="toggleOneItem"></todo-list>
       <todo-footer v-on:clearAll="clearAllItems"></todo-footer>
@@ -14,6 +14,7 @@ import TodoHeader from './components/TodoHeader.vue'
 import TodoInput from './components/TodoInput.vue'
 import TodoList from './components/TodoList.vue'
 import TodoFooter from './components/TodoFooter.vue'
+
 
 export default {
   name: 'App',
@@ -48,16 +49,6 @@ export default {
     },
 
   },
-
-  created() {
-        if(localStorage.length >0) {
-            for(var i =0 ; i< localStorage.length ; i++){
-                // this.todoItems.push(localStorage.key(i));
-                let value = JSON.parse(localStorage.getItem(localStorage.key(i)));
-                this.todoItems.push(value); // 파싱된 Json 객체를 저장
-            }
-        }
-    },
 
   components: {
     TodoHeader,
