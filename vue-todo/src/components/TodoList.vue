@@ -2,7 +2,7 @@
     <div>
         <transition-group name="fade" tag="ul">
             <!-- <ul> -->
-                <li v-for="(todoItem, index) in propsData" :key="todoItem.item" class="shadow">
+                <li v-for="(todoItem, index) in todoList" :key="todoItem.item" class="shadow">
                     <i class="checkBtn fa-solid fa-check"  :class="{checkBtnCompleted: todoItem.completed}"
                     @click="toggleComplete(todoItem,index)"></i>
                     <span :class="{textCompleted: todoItem.completed}"> {{ todoItem.item }} </span>
@@ -15,6 +15,9 @@
     </div>
 </template>
 <script>
+import { computed } from '@vue/runtime-core';
+import { useStore } from 'vuex'
+
 export default {
     props : ['propsData'], // 상위 컴포넌트에서 내려준 값을 받음 v-for in propsdaa로 변경하여 반목문 실행
 
@@ -27,6 +30,11 @@ export default {
             this.$emit('toggleItem', todoItem, index);
             
         }
+    },
+
+    setup(){
+        const store = useStore();
+        const todoList = computed(() => store.state.todoItems);
     },
 }
 </script>
