@@ -10,3 +10,4 @@ ux - modal, transition 적용
 
 VUE3 문법 VUEX 적용
 
+Setup script 적용
